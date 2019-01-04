@@ -1,0 +1,45 @@
+1000           COPY           START          1000                          
+1000           FIRST          STL            RETADR         141032         
+1003           CLOOP          JSUB           RDREC          482038         
+1006                          LDA            LENGTH         001035         
+1009                          COMP           ZERO           28102f         
+100c                          JEQ            ENDFIL         301015         
+100f                          JSUB           WRREC          48205f         
+1012                          J              CLOOP          3C1003         
+1015           ENDFIL         LDA            EOF            00102a         
+1018                          STA            BUFFER         0C1038         
+101b                          LDA            THREE          00102c         
+101e                          STA            LENGTH         0C1035         
+1021                          JSUB           WRREC          48205f         
+1024                          LDL            RETADR         081032         
+1027                          RSUB                          4C0000         
+102a           EOF            BYTE           C'EOF'         454f46         
+102c           THREE          WORD           3              000003         
+102f           ZERO           WORD           0              000000         
+1032           RETADR         RESW           1                             
+1035           LENGTH         RESW           1                             
+1038           BUFFER         RESB           4096                          
+2038           RDREC          LDX            ZERO           04102f         
+203b                          LDA            ZERO           00102f         
+203e           RLOOP          TD             INPUT          E0205c         
+2041                          JEQ            RLOOP          30203e         
+2044                          RD             INPUT          D8205c         
+2047                          COMP           ZERO           28102f         
+204a                          JEQ            EXIT           302056         
+204d                          STCH           BUFFER,X       549038         
+2050                          TIX            MAXLEN         2C205c         
+2053                          JLT            RLOOP          38203e         
+2056           EXIT           STX            LENGTH         101035         
+2059                          RSUB                          4C0000         
+205c           INPUT          BYTE           X'F'           F              
+205c           MAXLEN         WORD           4096           001000         
+205f           WRREC          LDX            ZERO           04102f         
+2062           WLOOP          TD             OUTPUT         E02077         
+2065                          JEQ            WLOOP          302062         
+2068                          LDCH           BUFFER,X       509038         
+206b                          WD             OUTPUT         DC2077         
+206e                          TIX            LENGTH         2C1035         
+2071                          JLT            WLOOP          382062         
+2074                          RSUB                          4C0000         
+2077           OUTPUT         BYTE           X'05'          05             
+                              END                                          
